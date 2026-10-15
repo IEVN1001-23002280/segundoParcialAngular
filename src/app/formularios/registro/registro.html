@@ -1,0 +1,114 @@
+<br /><br /><br />
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
+  
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-900">
+      Historial de Registros Guardados
+    </h2>
+    <a
+      routerLink="/formularios/zodiaco"
+      class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2"
+    >
+      Volver al Formulario Principal
+    </a>
+  </div>
+  
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-8">
+    <table class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+        <tr>
+          <th scope="col" class="px-6 py-3">Nombre Completo</th>
+          <th scope="col" class="px-6 py-3">Edad</th>
+          <th scope="col" class="px-6 py-3">Signo Chino</th>
+          <th scope="col" class="px-6 py-3">Sexo</th>
+          <th scope="col" class="px-6 py-3">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reg of registros let i = index" class="bg-white border-b border-gray-200 hover:bg-gray-50">
+          <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+            {{ reg.nombreCompleto }}
+          </td>
+          <td class="px-6 py-4">
+            {{ reg.edad }}
+          </td>
+          <td class="px-6 py-4">
+            {{ reg.signoChino }}
+          </td>
+          <td class="px-6 py-4">
+            {{ reg.sexo }}
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              <button
+                type="button"
+                class="px-3 py-1.5 text-xs font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300"
+                (click)="editarRegistro(i)"
+              >
+                Editar
+              </button>
+              <button
+                type="button"
+                class="px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300"
+                (click)="eliminarRegistro(i)"
+              >
+                Eliminar
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="registros.length === 0" class="p-4 mt-4 text-sm text-gray-800 rounded-lg bg-gray-100 mb-8" role="alert">
+    <span class="font-medium">Información:</span> No hay registros guardados en el LocalStorage.
+  </div>
+
+  <div class="border-t border-gray-200 pt-6">
+    <h3 class="text-xl font-bold text-gray-800 mb-4">
+      {{ indiceEdicion !== -1 ? 'Editando Registro Seleccionado' : 'Selecciona un registro arriba para editar' }}
+    </h3>
+
+    <form [formGroup]="formularioEdicion" (ngSubmit)="guardarEdicion()">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-900">Nombre</label>
+          <input type="text" formControlName="nombre" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-900">A. Paterno</label>
+          <input type="text" formControlName="aPaterno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-900">A. Materno</label>
+          <input type="text" formControlName="aMaterno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-900">Edad</label>
+          <input type="number" formControlName="edad" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-900">Sexo</label>
+          <div class="flex items-center space-x-4 mt-2">
+            <input type="radio" value="Masculino" formControlName="sexo" /> Masculino
+            <input type="radio" value="Femenino" formControlName="sexo" /> Femenino
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="indiceEdicion === -1"
+        [ngClass]="indiceEdicion === -1 ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-700 hover:bg-green-800'"
+        class="text-white font-medium rounded-lg text-sm px-5 py-2.5 w-full transition-colors"
+      >
+        {{ indiceEdicion !== -1 ? 'Guardar Cambios' : 'Selecciona un registro arriba para activar edición' }}
+      </button>
+    </form>
+  </div>
+
+</div>

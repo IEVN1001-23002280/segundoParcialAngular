@@ -17,10 +17,15 @@ export const routes: Routes = [
                 import('./formularios/zodiaco/zodiaco').then(
                     (c)=>c.Zodiaco
                 ),
+        },
+        {
+            path:'registro',
+            loadComponent:()=>
+                import('./formularios/registro/registro').then(
+                    (c)=>c.Registro
+                ),
         }
     ]
-
-   
 },
 
 {
@@ -33,7 +38,6 @@ export const routes: Routes = [
                     (c)=>c.ListaAlumnos
                 ),
         },
-       
     ],
 },
  
@@ -44,7 +48,4 @@ export const routes: Routes = [
 {
     path:'**', redirectTo: 'admin'
 },
- 
- 
 ];
- 
